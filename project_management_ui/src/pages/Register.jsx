@@ -1,36 +1,49 @@
 import { useRegisterUserMutation } from "../services/authApi.js";
-
+import { useForm } from "react-hook-form";
 const Register = () => {
   const [registerUser, { isLoading, isSuccess, isError, data, error }] =
     useRegisterUserMutation();
-  const handleSubmit = async (e) => {
-   e.preventDefault();
-    console.log("SUBMITEEEDD");
+
+  const { register, handleSubmit } = useForm();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log("SUBMITEEEDD");
+  //   try {
+  //     await registerUser({
+  //       name: "",
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const onSubmit = async (data) => {
     try {
-      await registerUser({
-        name: "",
-      });
+      let payload = await registerUser(data).unwrap();
+      if (payload) {
+        console.log(payload);
+      }
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <br />
         <div>
           <label htmlFor="username">User Name</label>
-          <input type="text" id="username" />
+          <input {...register("username")} type="text" id="username" />
         </div>
         <br />
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" />
+          <input {...register("email")} type="email" id="email" />
         </div>
         <br />
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" />
+          <input {...register("password")} type="password" id="password" />
         </div>
         <br />
         <div>
