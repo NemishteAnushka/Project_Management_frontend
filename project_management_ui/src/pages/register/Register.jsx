@@ -1,10 +1,16 @@
-import { useRegisterUserMutation } from "../services/authApi.js";
+import { useRegisterUserMutation } from "../../services/authApi.js";
 import { useForm } from "react-hook-form";
+import ErrorMessage from "../../utility/error/ErrorMessage.jsx";
 const Register = () => {
   const [registerUser, { isLoading, isSuccess, isError, data, error }] =
     useRegisterUserMutation();
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  console.log(errors, "errors");
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   console.log("SUBMITEEEDD");
@@ -33,17 +39,33 @@ const Register = () => {
         <br />
         <div>
           <label htmlFor="username">User Name</label>
-          <input {...register("username")} type="text" id="username" />
+          <input
+            {...register("username", { required: "This field is required." })}
+            type="text"
+            id="username"
+          />
+          {/* <div style={{color :"red"}}>{errors?.username?.message}</div> */}
+          <ErrorMessage fieldname={errors?.username} />
         </div>
         <br />
         <div>
           <label htmlFor="email">Email</label>
-          <input {...register("email")} type="email" id="email" />
+          <input
+            {...register("email", { required: "This field is required" })}
+            type="email"
+            id="email"
+          />
+          <ErrorMessage fieldname={errors?.email} />
         </div>
         <br />
         <div>
           <label htmlFor="password">Password</label>
-          <input {...register("password")} type="password" id="password" />
+          <input
+            {...register("password", { required: "This field is required" })}
+            type="password"
+            id="password"
+          />
+          <ErrorMessage fieldname={errors?.password} />
         </div>
         <br />
         <div>
