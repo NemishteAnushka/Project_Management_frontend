@@ -1,6 +1,7 @@
 import { useRegisterUserMutation } from "../../services/authApi.js";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../utility/error/ErrorMessage.jsx";
+import { StyledSubmitButton } from "../../utility/error/Button.Styles.js";
 const Register = () => {
   const [registerUser, { isLoading, isSuccess, isError, data, error }] =
     useRegisterUserMutation();
@@ -40,6 +41,7 @@ const Register = () => {
         <div>
           <label htmlFor="username">User Name</label>
           <input
+            className="input"
             {...register("username", { required: "This field is required." })}
             type="text"
             id="username"
@@ -51,6 +53,7 @@ const Register = () => {
         <div>
           <label htmlFor="email">Email</label>
           <input
+            className="input"
             {...register("email", { required: "This field is required" })}
             type="email"
             id="email"
@@ -61,6 +64,7 @@ const Register = () => {
         <div>
           <label htmlFor="password">Password</label>
           <input
+            className="input"
             {...register("password", { required: "This field is required" })}
             type="password"
             id="password"
@@ -69,7 +73,9 @@ const Register = () => {
         </div>
         <br />
         <div>
-          <button type="submit">Submit</button>
+          <StyledSubmitButton type="submit" className="ms-2">
+            Submit
+          </StyledSubmitButton>
         </div>
       </form>
     </>
