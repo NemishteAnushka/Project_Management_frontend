@@ -1,7 +1,8 @@
 import { useRegisterUserMutation } from "../../services/authApi.js";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../utility/error/ErrorMessage.jsx";
-import { StyledSubmitButton } from "../../utility/error/Button.Styles.js";
+import { StyledSubmitButton } from "../../utility/Button.Styles.js";
+import { showToast } from "../../utility/alert/ShowAlert.jsx";
 const Register = () => {
   const [registerUser, { isLoading, isSuccess, isError, data, error }] =
     useRegisterUserMutation();
@@ -12,26 +13,22 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   console.log(errors, "errors");
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log("SUBMITEEEDD");
-  //   try {
-  //     await registerUser({
-  //       name: "",
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const onSubmit = async (data) => {
     try {
       let payload = await registerUser(data).unwrap();
       if (payload) {
-        console.log(payload);
+        showToast({
+          type: "sucess",
+          message: "User Registered Sucessfully",
+        });
       }
     } catch (error) {
       console.log(error);
+      showToast({
+        type: "error",
+        message: error.data.message,
+      });
     }
   };
   return (
@@ -74,7 +71,7 @@ const Register = () => {
         <br />
         <div>
           <StyledSubmitButton type="submit" className="ms-2">
-            Submit
+            Register
           </StyledSubmitButton>
         </div>
       </form>
